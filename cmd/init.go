@@ -60,7 +60,7 @@ func createInitialProject(projectName, moduleName string) {
 
 	files := map[string]string{
 		"go.mod":                              "templates/go.mod.tmpl",
-		".env.example":                        "templates/.env.example.tmpl",
+		".env":                                "templates/.env.tmpl",
 		"cmd/server/main.go":                  "templates/project/cmd/server/main.go.tmpl",
 		"config/config.go":                    "templates/project/config/config.go.tmpl",
 		"config/db/db.go":                     "templates/project/config/db/db.go.tmpl",
