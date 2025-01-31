@@ -15,10 +15,10 @@ O Go **não é necessário** para rodar os comandos do `cli-go`, pois ele será 
 
 Você pode instalar o CLI-GO de duas formas:
 
-### 1. Instalando via `go get`  
+### 1. Instalando via `go install`  
 
 ```sh
-go get github.com/OzyKleyton/project-go-cli@latest
+go install github.com/OzyKleyton/project-go-cli@latest
 ```
 
 ### 2. Clonando o repositório
