@@ -3,12 +3,12 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"html/template"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/spf13/cobra"
 )
@@ -39,15 +39,14 @@ func createInitialProject(projectName, moduleName string) {
 	basePath := filepath.Join(".", projectName)
 
 	folders := []string{
-		"cmd/server",
 		"config/db",
-		"internal/api",
-		"internal/api/handler",
-		"internal/api/middleware",
-		"internal/api/router",
 		"internal/model",
 		"internal/repository",
 		"internal/service",
+		"internal/api",
+		"internal/api/router",
+		"internal/api/handler",
+		"cmd/server",
 	}
 
 	for _, folder := range folders {
@@ -60,10 +59,23 @@ func createInitialProject(projectName, moduleName string) {
 	}
 
 	files := map[string]string{
-		"go.mod":             "templates/go.mod.tmpl",
-		"cmd/server/main.go": "templates/project/cmd/server/main.go.tmpl",
-		"config/config.go":   "templates/project/config/config.go.tmpl",
-		"config/db/db.go":    "templates/project/config/db/db.go.tmpl",
+		"go.mod":                              "templates/go.mod.tmpl",
+		".env.example":                        "templates/.env.example.tmpl",
+		"cmd/server/main.go":                  "templates/project/cmd/server/main.go.tmpl",
+		"config/config.go":                    "templates/project/config/config.go.tmpl",
+		"config/db/db.go":                     "templates/project/config/db/db.go.tmpl",
+		"internal/model/response.go":          "templates/project/internal/model/response.go.tmpl",
+		"internal/model/user.go":              "templates/project/internal/model/user.go.tmpl",
+		"internal/repository/userRepo.go":     "templates/project/internal/repository/userRepo.go.tmpl",
+		"internal/service/userService.go":     "templates/project/internal/service/userService.go.tmpl",
+		"internal/api/handler/userHandler.go": "templates/project/internal/api/handler/userHandler.go.tmpl",
+		"internal/api/router/router.go":       "templates/project/internal/api/router/router.go.tmpl",
+		"internal/api/api.go":                 "templates/project/internal/api/api.go.tmpl",
+		"docker-entrypoint.sh":                "templates/docker-entrypoint.sh.tmpl",
+		"Dockerfile":                          "templates/Dockerfile.tmpl",
+		"docker-compose.yaml":                 "templates/docker-compose.yaml.tmpl",
+		"makefile":                            "templates/makefile.tmpl",
+		".gitignore":                          "templates/.gitignore.tmpl",
 	}
 
 	data := struct {

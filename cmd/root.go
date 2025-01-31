@@ -7,7 +7,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "scaffold-go",
+	Use:   "cli-go",
 	Short: "Ferramenta para scaffolding de projetos Go",
 	Long: `scaffold-go é uma ferramenta CLI que facilita a criação de estruturas
 	de projetos Golang com padrões específicos.`,

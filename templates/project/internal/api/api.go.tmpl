@@ -46,16 +46,12 @@ func Run(host, port string) error {
 		return err
 	}
 
-	//Load repositories
 	userRepo := repository.NewUserRepository(db)
 
-	// Load services
 	userService := service.NewUserService(userRepo)
 
-	// Load Handles
 	userHandler := handler.NewUserHandler(userService)
 
-	// Load Routes
 	router.SetupRouter(app, userHandler.Routes())
 
 	c := make(chan os.Signal, 1)
@@ -65,7 +61,7 @@ func Run(host, port string) error {
 		<-c
 		fmt.Println("Gracefully shutting down...")
 		cancel()
-		errc <- app.Shutdown()
+		errc <-app.Shutdown()
 	}()
 
 	if err := app.Listen(address); err != nil {
