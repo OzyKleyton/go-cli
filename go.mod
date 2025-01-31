@@ -1,4 +1,4 @@
-module github.com/ozykt4/project-go-cli
+module github.com/OzyKleyton/project-go-cli
 
 go 1.23.0
 
