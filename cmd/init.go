@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//go:embed template/**/**
+//go:embed template/**/**/* template/* template/*/*/*/*
 var templates embed.FS
 
 var initCmd = &cobra.Command{
@@ -71,16 +71,16 @@ func createInitialProject(projectName, moduleName string) {
 	files := map[string]string{
 		"go.mod":                              "template/go.mod.tmpl",
 		".env":                                "template/.env.tmpl",
-		"cmd/server/main.go":                  "template/project/cmd/server/main.go.tmpl",
-		"config/config.go":                    "template/project/config/config.go.tmpl",
-		"config/db/db.go":                     "template/project/config/db/db.go.tmpl",
-		"internal/model/response.go":          "template/project/internal/model/response.go.tmpl",
-		"internal/model/user.go":              "template/project/internal/model/user.go.tmpl",
-		"internal/repository/userRepo.go":     "template/project/internal/repository/userRepo.go.tmpl",
-		"internal/service/userService.go":     "template/project/internal/service/userService.go.tmpl",
-		"internal/api/handler/userHandler.go": "template/project/internal/api/handler/userHandler.go.tmpl",
-		"internal/api/router/router.go":       "template/project/internal/api/router/router.go.tmpl",
-		"internal/api/api.go":                 "template/project/internal/api/api.go.tmpl",
+		"cmd/server/main.go":                  "template/cmd/server/main.go.tmpl",
+		"config/config.go":                    "template/config/config.go.tmpl",
+		"config/db/db.go":                     "template/config/db/db.go.tmpl",
+		"internal/model/response.go":          "template/internal/model/response.go.tmpl",
+		"internal/model/user.go":              "template/internal/model/user.go.tmpl",
+		"internal/repository/userRepo.go":     "template/internal/repository/userRepo.go.tmpl",
+		"internal/service/userService.go":     "template/internal/service/userService.go.tmpl",
+		"internal/api/handler/userHandler.go": "template/internal/api/handler/userHandler.go.tmpl",
+		"internal/api/router/router.go":       "template/internal/api/router/router.go.tmpl",
+		"internal/api/api.go":                 "template/internal/api/api.go.tmpl",
 		"docker-entrypoint.sh":                "template/docker-entrypoint.sh.tmpl",
 		"Dockerfile":                          "template/Dockerfile.tmpl",
 		"docker-compose.yaml":                 "template/docker-compose.yaml.tmpl",
