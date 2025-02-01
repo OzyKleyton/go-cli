@@ -7,7 +7,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "cli-go",
+	Use:   "go-cli",
 	Short: "Ferramenta para scaffolding de projetos Go",
 	Long: `cli-go é uma ferramenta CLI que facilita a criação de estruturas
 	de projetos Golang com padrões específicos.`,

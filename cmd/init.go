@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bufio"
+	"embed"
 	"fmt"
 	"log"
 	"os"
@@ -12,6 +13,8 @@ import (
 
 	"github.com/spf13/cobra"
 )
+
+var templates embed.FS
 
 var initCmd = &cobra.Command{
 	Use:   "init [projectName]",
@@ -38,26 +41,6 @@ como padrões como Dockerfile, docker-compose e env.`,
 func createInitialProject(projectName, moduleName string) {
 	basePath := filepath.Join(".", projectName)
 
-	folders := []string{
-		"config/db",
-		"internal/model",
-		"internal/repository",
-		"internal/service",
-		"internal/api",
-		"internal/api/router",
-		"internal/api/handler",
-		"cmd/server",
-	}
-
-	for _, folder := range folders {
-		path := filepath.Join(basePath, folder)
-		if err := os.MkdirAll(path, os.ModePerm); err != nil {
-			fmt.Printf("Erro ao criar pasta '%s': %v\n", path, err)
-		} else {
-			fmt.Printf("Criado: %s\n", path)
-		}
-	}
-
 	files := map[string]string{
 		"go.mod":                              "templates/go.mod.tmpl",
 		".env":                                "templates/.env.tmpl",
@@ -76,6 +59,26 @@ func createInitialProject(projectName, moduleName string) {
 		"docker-compose.yaml":                 "templates/docker-compose.yaml.tmpl",
 		"makefile":                            "templates/makefile.tmpl",
 		".gitignore":                          "templates/.gitignore.tmpl",
+	}
+
+	folders := []string{
+		"config/db",
+		"internal/model",
+		"internal/repository",
+		"internal/service",
+		"internal/api",
+		"internal/api/router",
+		"internal/api/handler",
+		"cmd/server",
+	}
+
+	for _, folder := range folders {
+		path := filepath.Join(basePath, folder)
+		if err := os.MkdirAll(path, os.ModePerm); err != nil {
+			fmt.Printf("Erro ao criar pasta '%s': %v\n", path, err)
+		} else {
+			fmt.Printf("Criado: %s\n", path)
+		}
 	}
 
 	data := struct {
@@ -105,9 +108,14 @@ func runCommand(projectPath, command string, args ...string) {
 }
 
 func generateFileFromTemplate(templatePath, outputPath string, data interface{}) {
-	tmpl, err := template.ParseFiles(templatePath)
+	tmplContent, err := templates.ReadFile(templatePath)
 	if err != nil {
 		panic(fmt.Sprintf("Erro ao carregar template '%s': %v", templatePath, err))
+	}
+
+	tmpl, err := template.New("template").Parse(string(tmplContent))
+	if err != nil {
+		panic(fmt.Sprintf("Erro ao parsear template '%s': %v", templatePath, err))
 	}
 
 	file, err := os.Create(outputPath)
