@@ -18,14 +18,14 @@ Você pode instalar o CLI-GO de duas formas:
 ### 1. Instalando via `go install`  
 
 ```sh
-go install github.com/OzyKleyton/project-go-cli@latest
+go install github.com/OzyKleyton/go-cli@latest
 ```
 
 ### 2. Clonando o repositório
 
 ```sh
-git clone https://github.com/OzyKleyton/project-go-cli.git
-cd cli-go
+git clone https://github.com/OzyKleyton/go-cli.git
+cd go-cli
 ```
 
 ## Uso
