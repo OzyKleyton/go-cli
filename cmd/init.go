@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//go:embed template/* template/project/*
+//go:embed template/**/**
 var templates embed.FS
 
 var initCmd = &cobra.Command{
@@ -69,23 +69,23 @@ func createInitialProject(projectName, moduleName string) {
 	}
 
 	files := map[string]string{
-		"go.mod":                              "templates/go.mod.tmpl",
-		".env":                                "templates/.env.tmpl",
-		"cmd/server/main.go":                  "templates/project/cmd/server/main.go.tmpl",
-		"config/config.go":                    "templates/project/config/config.go.tmpl",
-		"config/db/db.go":                     "templates/project/config/db/db.go.tmpl",
-		"internal/model/response.go":          "templates/project/internal/model/response.go.tmpl",
-		"internal/model/user.go":              "templates/project/internal/model/user.go.tmpl",
-		"internal/repository/userRepo.go":     "templates/project/internal/repository/userRepo.go.tmpl",
-		"internal/service/userService.go":     "templates/project/internal/service/userService.go.tmpl",
-		"internal/api/handler/userHandler.go": "templates/project/internal/api/handler/userHandler.go.tmpl",
-		"internal/api/router/router.go":       "templates/project/internal/api/router/router.go.tmpl",
-		"internal/api/api.go":                 "templates/project/internal/api/api.go.tmpl",
-		"docker-entrypoint.sh":                "templates/docker-entrypoint.sh.tmpl",
-		"Dockerfile":                          "templates/Dockerfile.tmpl",
-		"docker-compose.yaml":                 "templates/docker-compose.yaml.tmpl",
-		"makefile":                            "templates/makefile.tmpl",
-		".gitignore":                          "templates/.gitignore.tmpl",
+		"go.mod":                              "template/go.mod.tmpl",
+		".env":                                "template/.env.tmpl",
+		"cmd/server/main.go":                  "template/project/cmd/server/main.go.tmpl",
+		"config/config.go":                    "template/project/config/config.go.tmpl",
+		"config/db/db.go":                     "template/project/config/db/db.go.tmpl",
+		"internal/model/response.go":          "template/project/internal/model/response.go.tmpl",
+		"internal/model/user.go":              "template/project/internal/model/user.go.tmpl",
+		"internal/repository/userRepo.go":     "template/project/internal/repository/userRepo.go.tmpl",
+		"internal/service/userService.go":     "template/project/internal/service/userService.go.tmpl",
+		"internal/api/handler/userHandler.go": "template/project/internal/api/handler/userHandler.go.tmpl",
+		"internal/api/router/router.go":       "template/project/internal/api/router/router.go.tmpl",
+		"internal/api/api.go":                 "template/project/internal/api/api.go.tmpl",
+		"docker-entrypoint.sh":                "template/docker-entrypoint.sh.tmpl",
+		"Dockerfile":                          "template/Dockerfile.tmpl",
+		"docker-compose.yaml":                 "template/docker-compose.yaml.tmpl",
+		"makefile":                            "template/makefile.tmpl",
+		".gitignore":                          "template/.gitignore.tmpl",
 	}
 
 	for file, templatePath := range files {
