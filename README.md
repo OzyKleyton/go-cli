@@ -67,7 +67,10 @@ nome-do-projeto/
 └── makefile
 ```
 
-##
+### Rodando o projeto
 
+Após os comando de criação vamos rodar os comando `make` para rodar os scrips do docker-compose.
 
+`make up` para começar a buildar a imagem docker.
 
+`make start` para executar o container.
