@@ -1,20 +1,23 @@
 package cmd
 
 import (
-	"bufio"
 	"embed"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
+	"time"
 
+	"github.com/AlecAivazis/survey/v2"
+	"github.com/briandowns/spinner"
+	"github.com/common-nighthawk/go-figure"
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
-//go:embed template/**/**/* template/* template/*/*/*/*
+//go:embed template/**/**/* template/* template/*/*/*
 var templates embed.FS
 
 var initCmd = &cobra.Command{
@@ -22,20 +25,36 @@ var initCmd = &cobra.Command{
 	Short: "Inicializa um novo Projeto Go.",
 	Long: `O comando init cria a estrutura inicial do projeto,
 tendo como padrão as pastas cmd, config, internal e arquivos
-como padrões como Dockerfile, docker-compose e env.`,
+como Dockerfile, docker-compose e .env.`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		figure.NewColorFigure("GO-CLI", "doom", "blue", true).Print()
+		fmt.Println()
+
 		projectName := args[0]
 
-		fmt.Print("Digite o nome do módulo Go (ex: github.com/seu-usuario/seu-projeto): ")
-		reader := bufio.NewReader(os.Stdin)
-		moduleName, _ := reader.ReadString('\n')
+		var moduleName string
+		prompt := &survey.Input{
+			Message: "Digite o nome do módulo Go (ex: github.com/seu-usuario/seu-projeto):",
+		}
+		survey.AskOne(prompt, &moduleName)
 		moduleName = strings.TrimSpace(moduleName)
 
-		fmt.Printf("Criando o projeto '%s' com módulo '%s'...\n", projectName, moduleName)
+		color.Cyan("\nCriando o projeto '%s' com módulo '%s'...\n", projectName, moduleName)
+
+		s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
+		s.Color("cyan")
+		s.Suffix = " Configurando estrutura do projeto..."
+		s.Start()
 
 		createInitialProject(projectName, moduleName)
 
+		s.Stop()
+
+		color.Green("\n✅ Projeto '%s' criado com sucesso!", projectName)
+		color.Yellow("Para começar, entre no diretório e rode:\n")
+		fmt.Println(color.CyanString("  cd %s", projectName))
+		fmt.Println(color.CyanString("  go run main.go"))
 	},
 }
 
@@ -56,9 +75,9 @@ func createInitialProject(projectName, moduleName string) {
 	for _, folder := range folders {
 		path := filepath.Join(basePath, folder)
 		if err := os.MkdirAll(path, os.ModePerm); err != nil {
-			fmt.Printf("Erro ao criar pasta '%s': %v\n", path, err)
+			color.Red("❌ Erro ao criar pasta '%s': %v\n", path, err)
 		} else {
-			fmt.Printf("Criado: %s\n", path)
+			color.Green("📁 Criado: %s", path)
 		}
 	}
 
@@ -102,34 +121,39 @@ func runCommand(projectPath, command string, args ...string) {
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Fatalf("Erro ao executar '%s %v': %v\nSaída:\n%s", command, args, err, string(output))
+		color.Red("❌ Erro ao executar '%s %v': %v\nSaída:\n%s", command, args, err, string(output))
+		return
 	}
 
-	fmt.Printf("Comando executado com sucesso: %s %v\n", command, args)
+	color.Green("✅ Comando executado com sucesso: %s %v", command, args)
 }
 
 func generateFileFromTemplate(templatePath, outputPath string, data interface{}) {
 	tmplContent, err := templates.ReadFile(templatePath)
 	if err != nil {
-		panic(fmt.Sprintf("Erro ao carregar template '%s': %v", templatePath, err))
+		color.Red("❌ Erro ao carregar template '%s': %v", templatePath, err)
+		return
 	}
 
 	tmpl, err := template.New("template").Parse(string(tmplContent))
 	if err != nil {
-		panic(fmt.Sprintf("Erro ao parsear template '%s': %v", templatePath, err))
+		color.Red("❌ Erro ao parsear template '%s': %v", templatePath, err)
+		return
 	}
 
 	file, err := os.Create(outputPath)
 	if err != nil {
-		panic(fmt.Sprintf("Erro ao criar arquivo '%s': %v", outputPath, err))
+		color.Red("❌ Erro ao criar arquivo '%s': %v", outputPath, err)
+		return
 	}
 	defer file.Close()
 
 	if err := tmpl.Execute(file, data); err != nil {
-		panic(fmt.Sprintf("Erro ao preencher template '%s': %v", outputPath, err))
+		color.Red("❌ Erro ao preencher template '%s': %v", outputPath, err)
+		return
 	}
 
-	fmt.Printf("Arquivo gerado: %s\n", outputPath)
+	color.Green("📝 Arquivo gerado: %s", outputPath)
 }
 
 func init() {
