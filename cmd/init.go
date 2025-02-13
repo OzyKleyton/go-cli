@@ -40,11 +40,11 @@ como Dockerfile, docker-compose e .env.`,
 		survey.AskOne(prompt, &moduleName)
 		moduleName = strings.TrimSpace(moduleName)
 
-		color.Cyan("\nCriando o projeto '%s' com módulo '%s'...\n", projectName, moduleName)
+		color.Cyan("\nCriando o projeto '%s' com módulo '%s'\n", projectName, moduleName)
 
 		s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
 		s.Color("cyan")
-		s.Suffix = " Configurando estrutura do projeto..."
+		s.Suffix = " Configurando estrutura do projeto\n"
 		s.Start()
 
 		createInitialProject(projectName, moduleName)
@@ -52,9 +52,10 @@ como Dockerfile, docker-compose e .env.`,
 		s.Stop()
 
 		color.Green("\n✅ Projeto '%s' criado com sucesso!", projectName)
-		color.Yellow("Para começar, entre no diretório e rode:\n")
+		color.Yellow("Para começar, rode os seguintes comandos:\n")
 		fmt.Println(color.CyanString("  cd %s", projectName))
-		fmt.Println(color.CyanString("  go run main.go"))
+		fmt.Println(color.CyanString("  make up"))
+		fmt.Println(color.CyanString("  make start"))
 	},
 }
 
