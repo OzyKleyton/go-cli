@@ -1,19 +1,21 @@
-# CLI-GO
+# GO-CLI
 
-CLI-GO é uma ferramenta de linha de comando para inicialização rápida de projetos em Go, seguindo uma estrutura organizada e padrão.
+GO-CLI é uma ferramenta de linha de comando para inicialização rápida de projetos em Go, seguindo uma estrutura organizada e padrão.
+
+Ainda estou desenvolvendo e aos poucos irei melhorando o projeto.
 
 ## Requisitos
 
-Antes de utilizar o CLI-GO, verifique se possui os seguintes softwares instalados:
+Antes de utilizar o GO-CLI, verifique se possui os seguintes softwares instalados:
 
 - **Docker**: Para facilitar a execução do ambiente de desenvolvimento.
 - **Docker Compose**: Para gerenciar os containers da aplicação.
 
-O Go **não é necessário** para rodar os comandos do `cli-go`, pois ele será compilado e executado dentro do container Docker.
+O Go **não é necessário** para rodar os comandos do `go-cli`, pois ele será compilado e executado dentro do container Docker.
 
 ## Instalação
 
-Você pode instalar o CLI-GO de duas formas:
+Você pode instalar o GO-CLI de duas formas:
 
 ### 1. Instalando via `go install`  
 
@@ -33,14 +35,14 @@ cd go-cli
 Após a instalação, você pode rodar o seguinte comando para iniciar um novo projeto:
 
 ```sh
-cli-go init nome-do-projeto
+go-cli init nome-do-projeto
 ```
 
 Isso criará uma estrutura de pastas e arquivos padrão para seu projeto em Go.
 
 ## Estrutura Criada
 
-O comando `cli-go init` gerará a seguinte estrutura:
+O comando `go-cli init` gerará a seguinte estrutura:
 
 ```
 nome-do-projeto/
