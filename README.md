@@ -1,78 +1,96 @@
 # GO-CLI
 
-GO-CLI é uma ferramenta de linha de comando para inicialização rápida de projetos em Go, seguindo uma estrutura organizada e padrão.
+<p align="center">
+  <img src="https://img.shields.io/github/go-mod/go-version/OzyKleyton/go-cli" alt="Go Version">
+  <img src="https://img.shields.io/github/v/release/OzyKleyton/go-cli" alt="Release">
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
+</p>
 
-Ainda estou desenvolvendo e aos poucos irei melhorando o projeto.
+GO-CLI é uma ferramenta de linha de comando para inicialização rápida de projetos em Go com estrutura organizada.
 
-## Requisitos
+## 📋 Pré-requisitos
 
-Antes de utilizar o GO-CLI, verifique se possui os seguintes softwares instalados:
+- [Go 1.20+](https://golang.org/dl/)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-- **Docker**: Para facilitar a execução do ambiente de desenvolvimento.
-- **Docker Compose**: Para gerenciar os containers da aplicação.
+## ⚡ Instalação Rápida
 
-O Go **não é necessário** para rodar os comandos do `go-cli`, pois ele será compilado e executado dentro do container Docker.
-
-## Instalação
-
-Você pode instalar o GO-CLI de duas formas:
-
-### 1. Instalando via `go install`  
-
-```sh
+```bash
+# Instalar o CLI
 go install github.com/OzyKleyton/go-cli@latest
+
+# Configurar PATH (Linux/macOS)
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.$(basename $SHELL)rc && source ~/.$(basename $SHELL)rc
+
+# Verificar instalação
+go-cli version
 ```
 
-### 2. Clonando o repositório
+🛠️ Instalação Manual
 
-```sh
+```bash
 git clone https://github.com/OzyKleyton/go-cli.git
 cd go-cli
+go build -o go-cli .
+sudo mv go-cli /usr/local/bin  # Linux/macOS
 ```
 
-## Uso
+🚀 Como Usar
+Criar novo projeto
 
-Após a instalação, você pode rodar o seguinte comando para iniciar um novo projeto:
-
-```sh
-go-cli init nome-do-projeto
+```bash
+go-cli init meu-projeto
 ```
 
-Isso criará uma estrutura de pastas e arquivos padrão para seu projeto em Go.
+Estrutura gerada
 
-## Estrutura Criada
-
-O comando `go-cli init` gerará a seguinte estrutura:
-
-```
-nome-do-projeto/
+```bash
+meu-projeto/
 ├── cmd/
-│   └── server/
-│       └── main.go
+│ └── server/
+│ └── main.go
 ├── config/
-│   ├── config.go
-│   └── db/
-│       └── db.go
+│ ├── config.go
+│ └── db/
+│ └── db.go
 ├── internal/
-│   ├── model/
-│   ├── repository/
-│   ├── service/
-│   ├── api/
-│   │   ├── handler/
-│   │   ├── router/
-│   │   └── api.go
+│ ├── model/
+│ ├── repository/
+│ ├── service/
+│ ├── api/
+│ │ ├── handler/
+│ │ ├── router/
+│ │ └── api.go
 ├── .env.example
 ├── Dockerfile
 ├── docker-compose.yaml
 ├── go.mod
 ├── go.sum
-└── makefile
+└── Makefile
 ```
 
-### Rodando o projeto
+🔧 Solução de Problemas
+Comando não encontrado
 
-Após os comando de criação vamos rodar os comando `make` para rodar os scrips do docker-compose.
+```bash
+# Executar com caminho completo
+$(go env GOPATH)/bin/go-cli --help
 
-`make up` para começar a buildar a imagem docker.
+# Verificar instalação
+ls $(go env GOPATH)/bin | grep go-cli
+```
 
-`make start` para executar o container.
+🤝 Contribuição
+Faça um fork do projeto
+
+Crie sua branch (git checkout -b feature/nova-feature)
+
+Commit suas mudanças (git commit -m 'Adiciona nova feature')
+
+Push para a branch (git push origin feature/nova-feature)
+
+Abra um Pull Request
+
+📄 Licença
+Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.
