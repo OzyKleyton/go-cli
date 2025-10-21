@@ -99,6 +99,7 @@ func createInitialProject(projectName, moduleName, goVersion string) {
 	folders := []string{
 		"config/db",
 		"internal/model",
+		"internal/model/user",
 		"internal/repository",
 		"internal/service",
 		"internal/api",
@@ -131,7 +132,8 @@ func createInitialProject(projectName, moduleName, goVersion string) {
 		"config/config.go":                    "template/config/config.go.tmpl",
 		"config/db/db.go":                     "template/config/db/db.go.tmpl",
 		"internal/model/response.go":          "template/internal/model/response.go.tmpl",
-		"internal/model/user.go":              "template/internal/model/user.go.tmpl",
+		"internal/model/user/dto.go":          "template/internal/model/user/dto.go.tmpl",
+		"internal/model/user/user.go":         "template/internal/model/user/user.go.tmpl",
 		"internal/repository/userRepo.go":     "template/internal/repository/userRepo.go.tmpl",
 		"internal/service/userService.go":     "template/internal/service/userService.go.tmpl",
 		"internal/api/handler/userHandler.go": "template/internal/api/handler/userHandler.go.tmpl",
