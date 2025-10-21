@@ -53,13 +53,15 @@ como Dockerfile, docker-compose e .env.`,
 		goVersion, err := getInstalledGoVersion()
 
 		if err == nil {
-			color.Green("🧰 Go detectado no sistema: %s", goVersion)
+			color.Cyan("🧰 Go detectado no sistema: %s", goVersion)
 		} else {
 			color.Yellow("⚠️  Não foi possível detectar `go` no PATH: %v", err)
 			color.Cyan("Versão do binário (compilado): %s", getRuntimeGoVersion())
 		}
 
 		createInitialProject(projectName, moduleName, goVersion)
+
+		runCommand(filepath.Join(".", projectName), "git", "init")
 
 		s.Stop()
 
@@ -128,6 +130,7 @@ func createInitialProject(projectName, moduleName, goVersion string) {
 	files := map[string]string{
 		"go.mod":                              "template/go.mod.tmpl",
 		".env":                                "template/.env.tmpl",
+		".env.example":                        "template/.env.example.tmpl",
 		"cmd/server/main.go":                  "template/cmd/server/main.go.tmpl",
 		"config/config.go":                    "template/config/config.go.tmpl",
 		"config/db/db.go":                     "template/config/db/db.go.tmpl",
