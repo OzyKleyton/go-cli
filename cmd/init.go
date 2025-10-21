@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"embed"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
+	"runtime"
 	"strings"
 	"text/template"
 	"time"
@@ -47,7 +50,16 @@ como Dockerfile, docker-compose e .env.`,
 		s.Suffix = " Configurando estrutura do projeto\n"
 		s.Start()
 
-		createInitialProject(projectName, moduleName)
+		goVersion, err := getInstalledGoVersion()
+
+		if err == nil {
+			color.Green("🧰 Go detectado no sistema: %s", goVersion)
+		} else {
+			color.Yellow("⚠️  Não foi possível detectar `go` no PATH: %v", err)
+			color.Cyan("Versão do binário (compilado): %s", getRuntimeGoVersion())
+		}
+
+		createInitialProject(projectName, moduleName, goVersion)
 
 		s.Stop()
 
@@ -59,7 +71,29 @@ como Dockerfile, docker-compose e .env.`,
 	},
 }
 
-func createInitialProject(projectName, moduleName string) {
+func getInstalledGoVersion() (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "go", "version")
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	re := regexp.MustCompile(`go([0-9]+(?:\.[0-9]+){1,2})`)
+	m := re.FindStringSubmatch(string(out))
+	if len(m) >= 2 {
+		return m[1], nil
+	}
+	return "", fmt.Errorf("não foi possível parsear a saída: %q", strings.TrimSpace(string(out)))
+}
+
+func getRuntimeGoVersion() string {
+	return strings.TrimPrefix(runtime.Version(), "go")
+}
+
+func createInitialProject(projectName, moduleName, goVersion string) {
 	basePath := filepath.Join(".", projectName)
 
 	folders := []string{
@@ -83,9 +117,11 @@ func createInitialProject(projectName, moduleName string) {
 	}
 
 	data := struct {
-		Module string
+		Module    string
+		GoVersion string
 	}{
-		Module: moduleName,
+		Module:    moduleName,
+		GoVersion: goVersion,
 	}
 
 	files := map[string]string{

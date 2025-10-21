@@ -14,7 +14,7 @@ import (
 	"{{ .Module }}/config/db"
 	"{{ .Module }}/internal/api/handler"
 	"{{ .Module }}/internal/api/router"
-	"{{ .Module }}/internal/model"
+	"{{ .Module }}/internal/model/user"
 	"{{ .Module }}/internal/repository"
 	"{{ .Module }}/internal/service"
 )
@@ -41,7 +41,7 @@ func Run(host, port string) error {
 	db = db.WithContext(ctx)
 
 	if err := db.AutoMigrate(
-		&model.User{},
+		&user.User{},
 	); err != nil {
 		return err
 	}
