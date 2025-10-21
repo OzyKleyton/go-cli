@@ -10,7 +10,7 @@ type UserRepository interface {
 	FindAll() ([]user.User, error)
 	FindByID(id uint) (user *user.User, err error)
 	FindByEmail(email string) (*user.User, error)
-	Update(user *model.User) (*user.User, error)
+	Update(user *user.User) (*user.User, error)
 	Delete(id uint) (user *user.User, err error)
 }
 
